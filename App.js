@@ -1,19 +1,21 @@
-import Rotas from "./Rotas/Rotas";
-import { GlobalStyle } from "./GlobalStyled";
-import { GlobalState } from "./GlobalState/GlobalState";
+const express = require('express');
 
+const cors = require('cors');
 
-function App() {
+const userRouter = require('./rotas/userRouter');
+const loginRouter = require('./rotas/loginRouter');
 
-  return (
-    <>
-      <GlobalStyle />
+const dotenv = require('dotenv').config();
 
-      <GlobalState>
-        <Rotas />
-      </GlobalState>
-    </>
-  )
-}
+const app = express();
 
-export default App
+app.use(express.json());
+
+app.use(cors())
+
+app.use('/api', userRouter);
+app.use('/api/auth', loginRouter);
+
+app.set('port', process.env.PORT || 3333);
+
+module.exports = app;
